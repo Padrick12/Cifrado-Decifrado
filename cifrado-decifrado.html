@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cifrado Cesar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            background-color: #007bff;
+            color: #ffffff;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        input[disabled] {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Cifrado César</h1>
+        <div>
+            <h3>Mensaje original</h3>
+            <input id="mensaje" type="text" placeholder="Ingresa el mensaje...">
+        </div>
+        <div>
+            <input id="cifrador" type="number" placeholder="Desplazamiento">
+        </div>
+        <div>
+            <button onclick="cifrarMensaje()">Cifrar</button>
+        </div>
+        <div>
+            <h3>Mensaje cifrado</h3>
+            <input disabled type="text" id="cifrado" placeholder="Mensaje cifrado...">
+        </div>
+    </div>
+    <div class="container">
+        <div>
+            <h3>Descifrar</h3>
+            <input id="mensaje2" type="text" placeholder="Ingresa el mensaje cifrado...">
+        </div>
+        <div>
+            <button onclick="descifrarMensaje()">Descifrar</button>
+        </div>
+        <div>
+            <h3>Mensaje descifrado</h3>
+            <input disabled type="text" id="cifrado2" placeholder="Mensaje descifrado...">
+        </div>
+    </div>
+
+    <script>
+        function cifrarMensaje() {
+            const diccionario = "abcdefghijklmnñopqrstuvwxyz";
+
+            const mensajeOriginal = document.getElementById("mensaje").value.toLowerCase();
+            const desplazamiento = parseInt(document.getElementById("cifrador").value);
+            const mensajeCifrado = cipherText(mensajeOriginal, desplazamiento);
+
+            document.getElementById("cifrado").value = mensajeCifrado;
+        }
+
+        function descifrarMensaje() {
+            const diccionario = "abcdefghijklmnñopqrstuvwxyz";
+
+            const mensajeCifrado = document.getElementById("mensaje2").value.toLowerCase();
+            const desplazamiento = parseInt(document.getElementById("cifrador").value);
+            const mensajeDescifrado = decipherText(mensajeCifrado, desplazamiento);
+
+            document.getElementById("cifrado2").value = mensajeDescifrado;
+            document.getElementById("cifrado2").disabled = true;
+        }
+
+        function cipherText(text, shift) {
+            let result = '';
+
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const index = diccionario.indexOf(char);
+
+                if (index !== -1) {
+                    const newIndex = (index + shift) % diccionario.length;
+                    result += diccionario[newIndex];
+                } else {
+                    result += char;
+                }
+            }
+
+            return result;
+        }
+
+        function decipherText(text, shift) {
+            let result = '';
+
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const index = diccionario.indexOf(char);
+
+                if (index !== -1) {
+                    const newIndex = (index - shift + diccionario.length) % diccionario.length;
+                    result += diccionario[newIndex];
+                } else {
+                    result += char;
+                }
+            }
+
+            return result;
+        }
+
+        const diccionario = "abcdefghijklmnñopqrstuvwxyz";
+    </script>
+</body>
+
+</html>
